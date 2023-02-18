@@ -14,7 +14,7 @@ model.add(Dense(1, activation='sigmoid'))
 #COMPILE MODEL
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 #CHECKPOINT
-filepath = "checkpoint/weights-improvement-{epoch:02d}-{val_accuracy:0.2f}.hdf5"
+filepath = "checkpoint/weights-best.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
 callbackList = [checkpoint]
 #Fit de model
