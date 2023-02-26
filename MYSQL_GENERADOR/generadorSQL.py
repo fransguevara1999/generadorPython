@@ -36,7 +36,7 @@ for table in tables_to_export:
         f"mysqldump -u {db_user} -p {db_password} -h {db_host} {db_name} {table} >> {output_file}")
     constt += 1
     # rutas = ruta +export_commands
-    with open("text.txt", "w") as file:
+    with open("../text.txt", "w") as file:
         file.write(export_commands[constt])
 
 
