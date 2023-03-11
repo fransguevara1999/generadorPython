@@ -1,5 +1,3 @@
-import random
-from time import sleep
 from selenium import webdriver
 from datetime import datetime
 from openpyxl import Workbook
