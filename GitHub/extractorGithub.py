@@ -8,11 +8,12 @@ now = datetime.now()
 año=now.year
 mes=now.month
 dia=now.day
+fecha = now.strftime("%Y-%m-%d")
 driver=webdriver.Chrome('chromedriver.exe')
 driver.get('https://github.com/search')
 buscador=driver.find_element_by_xpath("//input[@placeholder='Search GitHub']")
 lenguaje='SEQUELIZE'
-buscador.send_keys(f'{lenguaje} created:{año}-0{mes}-{dia} created:{año}-0{mes}-{dia}')
+buscador.send_keys(f'{lenguaje} created:{fecha} created:{fecha}')
 driver.find_element_by_xpath("//button[@type='submit']").click()
 elementos=driver.find_elements_by_xpath("//li[@class='repo-list-item hx_hit-repo d-flex flex-justify-start py-4 public source']")
 lenguajes=driver.find_elements_by_xpath("//span[@itemprop='programmingLanguage']")
@@ -42,8 +43,8 @@ libro=Workbook()
 """Seleccionar hoja"""
 hoja_activa=libro.active
 arr=[]
-formato_excel=['FECHA','USADO POR','COLABORADORES','LENGUAJES','PREGUNTAS']
-fila_excel=[f'{now.day}/{now.month}/{now.year}',total,total,f'Existen {cont_javasc} ({int((cont_javasc/total)*100)}%) elementos de JavaScript y {cont_type} ({int((cont_type/total)*100)}%) elementos de TypeScript',total]
+formato_excel=['ORM','FECHA','USADO POR','COLABORADORES','LENGUAJES','PREGUNTAS']
+fila_excel=[lenguaje,f'{now.strftime("%d/%m/%Y")}',total,total,f'Existen {cont_javasc} ({int((cont_javasc/total)*100)}%) elementos de JavaScript y {cont_type} ({int((cont_type/total)*100)}%) elementos de TypeScript',total]
 arr.append(formato_excel)
 arr.append(fila_excel)
 for elem in arr:
@@ -53,3 +54,4 @@ libro.save('datos.xlsx')
 print(f'Fecha Actual: {now}')
 print(f'Existen {cont_javasc} ({int((cont_javasc/total)*100)}%) elementos de JavaScript y {cont_type} ({int((cont_type/total)*100)}%) elementos de TypeScript')
 print(leng)"""
+print(fecha)
