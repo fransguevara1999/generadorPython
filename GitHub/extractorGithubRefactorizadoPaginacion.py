@@ -18,13 +18,12 @@ def realizar_busqueda(driver,lenguaje,fecha_desde,fecha_hasta):
     buscador.send_keys(f'{lenguaje} created:{fecha_desde} created:{fecha_hasta}')
     buscador.submit()
     resultados=[]
+    cont_javasc = 0
+    cont_type = 0
+    cont_dif = 0
     while True:
         lenguajes = driver.find_elements_by_xpath("//span[@itemprop='programmingLanguage']")
         leng = []
-        cont_javasc = 0
-        cont_type = 0
-        cont_dif = 0
-
         for l in lenguajes:
             if (l.text == 'JavaScript'):
                 cont_javasc += 1
@@ -47,15 +46,16 @@ def realizar_busqueda(driver,lenguaje,fecha_desde,fecha_hasta):
         # Verificar si hay más páginas
         #siguiente = driver.find_elements_by_xpath("//a[@class='next_page']|//span[contains(text(),'Next')]")
         siguiente = driver.find_elements_by_xpath("//a[@class='next_page']")
-        siguiente_final=driver.find_elements_by_xpath("//span[@class='next_page disabled']")
+        #siguiente_final=driver.find_elements_by_xpath("//span[@class='next_page disabled']")
         driver.implicitly_wait(2)
         if(len(siguiente)>=1):
-
+            driver.implicitly_wait(2)
             siguiente[0].click()
-            if(len(siguiente_final)==0):
+            """if(len(siguiente_final)==0):
                 break
-                driver.implicitly_wait(2)
+                driver.implicitly_wait(2)"""
         else:
+            driver.implicitly_wait(2)
             print("Salida de condicion, paginado completo")
             break
     return resultados
@@ -89,6 +89,7 @@ driver.switch_to.window(driver.window_handles[1])
 resultados_2 = realizar_busqueda(driver, BOOKSHELF, fecha_actual, fecha_actual)
 for resultado_pagina2 in resultados_2:
     hoja_activa.append(resultado_pagina2)
+driver.implicitly_wait(2)
 #hoja_activa.append(resultados_2)
 
 #Abrir una nueva pestaña para la tercera búsqueda
@@ -99,7 +100,12 @@ driver.switch_to.window(driver.window_handles[2])
 resultados_3 = realizar_busqueda(driver, PRISMA, fecha_actual, fecha_actual)
 for resultado_pagina3 in resultados_3:
     hoja_activa.append(resultado_pagina3)
+driver.implicitly_wait(2)
 #hoja_activa.append(resultados_3)
+
+#Abrir una nueva pestaña para la segunda búsqueda
+driver.execute_script("window.open('https://github.com/search')")
+driver.switch_to.window(driver.window_handles[3])
 
 # Aplicar el estilo de borde a cada fila
 for fila in hoja_activa.iter_rows(min_row=2):
